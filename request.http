@@ -1,0 +1,52 @@
+@baseUrl = http://localhost:5167/v1
+@categories = {{baseUrl}}/categories
+@password = "9nmvWbqgyOYsn0VRKgWTW7#E"
+
+###
+GET {{baseUrl}}
+
+
+###
+GET {{categories}}
+
+###
+GET {{categories}}/1
+
+###
+POST {{categories}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "Name": "",
+  "Slug": ""
+}
+
+###
+DELETE {{categories}}/6
+
+###
+POST {{baseUrl}}/login
+
+###
+GET {{baseUrl}}/admin
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRpYWdvLmF2aWxhLnNhbGRhbmhhQGdtYWlsLmNvbSIsInJvbGUiOlsiYWRtaW4iLCJ1c2VyIiwiYXV0aG9yIl0sIm5iZiI6MTc0NjEyMjQ2MiwiZXhwIjoxNzQ2MTI2MDYyLCJpYXQiOjE3NDYxMjI0NjJ9.ngWvGNa1b3ji0f2VmKdvO6yAKPBiZoKsPuNLejvj-so
+
+###
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+
+{
+  "Name": "Junior Saldanha",
+  "Email": "junior.saldanha@gmail.com"
+}
+
+
+### Senha: M9nmvWbqgyOYsn0VRKgWTW7#E
+
+POST {{baseUrl}}/accounts/login
+Content-Type: application/json
+
+{
+  "Password": {{password}},
+  "Email": "tiago.avila.saldanha@gmail.com"
+}
