@@ -1,9 +1,10 @@
 @baseUrl = http://localhost:5167/v1
 @categories = {{baseUrl}}/categories
+@apiKey = curso_api_IlTevUM/z0ey3NwCV/unWg==
 @password = "9nmvWbqgyOYsn0VRKgWTW7#E"
 
 ###
-GET {{baseUrl}}
+GET {{baseUrl}}?api_key={{apiKey}}
 
 
 ###
