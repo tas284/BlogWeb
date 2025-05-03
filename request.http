@@ -37,8 +37,8 @@ POST {{baseUrl}}/accounts
 Content-Type: application/json
 
 {
-  "Name": "Junior Saldanha",
-  "Email": "junior.saldanha@gmail.com"
+  "Name": "Jonh Doe",
+  "Email": "jonh@doe.com"
 }
 
 
@@ -49,5 +49,5 @@ Content-Type: application/json
 
 {
   "Password": {{password}},
-  "Email": "tiago.avila.saldanha@gmail.com"
+  "Email": "jonh@doe.com"
 }
