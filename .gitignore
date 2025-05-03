@@ -6,3 +6,4 @@
 /.vs
 /bin/Debug/net8.0
 /obj
+/appsettings.Development.json
