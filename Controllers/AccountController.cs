@@ -16,6 +16,7 @@ public class AccountController(TokenService tokenService) : ControllerBase
     [HttpPost("accounts")]
     public async Task<IActionResult> Post(
         [FromBody] RegisterViewModel model,
+        [FromServices] EmailService emailService,
         [FromServices] BlogDataContext context)
     {
         if (!ModelState.IsValid)
@@ -35,6 +36,9 @@ public class AccountController(TokenService tokenService) : ControllerBase
         {
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
+
+            await emailService.SendAsync(user.Name, user.Email, "Welcome to Blog Web", $"<h1>Welcome {user.Name}</h1><p>Your password is: <strong>{password}</strong></p>");
+
             return Ok(new ResultViewModel<dynamic>(new
             {
                 user = user.Email, password
