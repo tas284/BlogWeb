@@ -5,6 +5,7 @@ using BlogWeb.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace BlogWeb.Extensions
 {
@@ -40,7 +41,13 @@ namespace BlogWeb.Extensions
 
         public static IServiceCollection ConfigureControllers(this IServiceCollection services)
         {
-            services.AddControllers().ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+                });
             return services;
         }
 

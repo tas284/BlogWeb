@@ -66,4 +66,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 ###
 
-GET {{base}}/images/e24802d9-e2ea-4433-bc31-aa3c7a3ce7fe.jpg
+GET {{baseUrl}}/posts?page=10&pageSize=2
