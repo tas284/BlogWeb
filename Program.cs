@@ -5,6 +5,7 @@ builder.AddConfiguration().ConfigureJwt();
 builder.Services.ConfigureControllers().ConfigureServices();
 
 var app = builder.Build();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
