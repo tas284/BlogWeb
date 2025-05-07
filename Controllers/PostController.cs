@@ -1,4 +1,5 @@
 ﻿using BlogWeb.Data;
+using BlogWeb.Models;
 using BlogWeb.ViewModels;
 using BlogWeb.ViewModels.Post;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,32 @@ public class PostController : ControllerBase
         catch (Exception e)
         {
             return StatusCode(500, new ResultViewModel<string>("Internal Server Error"));
+        }
+    }
+
+    [HttpGet("posts/{id:int}")]
+    public async Task<IActionResult> GetById(
+        [FromServices] BlogDataContext context,
+        int id)
+    {
+        try
+        {
+            var post = await context
+                .Posts
+                .AsNoTracking()
+                .Include(x => x.Author)
+                .ThenInclude(x => x.Roles)
+                .Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (post == null)
+                return NotFound(new ResultViewModel<string>("Post not found"));
+
+            return Ok(new ResultViewModel<Post>(post));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ResultViewModel<string>($"Internal Server Error: {e.Message}"));
         }
     }
 }
