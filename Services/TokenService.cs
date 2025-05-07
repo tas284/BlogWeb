@@ -18,7 +18,7 @@ public class TokenService
     public string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_apiConfiguration.ApiKey);
+        var key = Encoding.ASCII.GetBytes(_apiConfiguration.JwtKey);
         var claims = user.GetClaims();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
