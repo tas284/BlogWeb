@@ -3,7 +3,6 @@ using BlogWeb.Configuration;
 using BlogWeb.Data;
 using BlogWeb.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -13,13 +12,23 @@ namespace BlogWeb.Extensions
 {
     public static class ConfigurationExtensions
     {
-        public static WebApplicationBuilder AddConfiguration(this WebApplicationBuilder builder)
+        public static WebApplicationBuilder AddDataContext(this WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<BlogDataContext>(x => x.UseSqlServer(connectionString));
+            return builder;
+        }
+
+        public static WebApplicationBuilder AddFilters(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddScoped<ApiKeyFilter>();
+            return builder;
+        }
+
+        public static WebApplicationBuilder AddConfiguration(this WebApplicationBuilder builder)
+        {
             builder.Services.Configure<ApiConfiguration>(builder.Configuration.GetSection("ApiConfiguration"));
             builder.Services.Configure<SmtpConfiguration>(builder.Configuration.GetSection("SmtpConfiguration"));
-            builder.Services.AddScoped<ApiKeyFilter>();
             return builder;
         }
 
@@ -60,9 +69,6 @@ namespace BlogWeb.Extensions
             services.AddTransient<TokenService>();
             services.AddTransient<EmailService>();
             services.AddMemoryCache();
-            services
-                .AddResponseCompression(options => options.Providers.Add<GzipCompressionProvider>())
-                .Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             return services;
         }
     }

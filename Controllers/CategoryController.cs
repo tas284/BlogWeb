@@ -25,7 +25,7 @@ namespace BlogWeb.Controllers
             return Ok(new ResultViewModel<List<Category>>(categories));
         }
 
-        public async Task<List<Category>> GetCategoriesAsync(BlogDataContext context)
+        private async Task<List<Category>> GetCategoriesAsync(BlogDataContext context)
             => await context.Categories.ToListAsync();
 
         [HttpGet("categories/{id:int}")]

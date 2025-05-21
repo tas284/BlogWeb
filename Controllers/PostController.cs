@@ -46,7 +46,7 @@ public class PostController : ControllerBase
                 posts
             }));
         }
-        catch (Exception e)
+        catch
         {
             return StatusCode(500, new ResultViewModel<string>("Internal Server Error"));
         }
