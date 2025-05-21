@@ -3,6 +3,7 @@ using BlogWeb.Configuration;
 using BlogWeb.Data;
 using BlogWeb.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -57,6 +58,14 @@ namespace BlogWeb.Extensions
             services.AddTransient<TokenService>();
             services.AddTransient<EmailService>();
             services.AddMemoryCache();
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = System.IO.Compression.CompressionLevel.Optimal;
+            });
             return services;
         }
     }
