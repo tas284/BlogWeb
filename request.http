@@ -75,3 +75,7 @@ GET {{baseUrl}}/posts/181
 ###
 
 GET {{baseUrl}}/posts/category/backend
+
+
+###
+GET {{baseUrl}}/categories

@@ -4,6 +4,7 @@ using BlogWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlogWeb.Extensions;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BlogWeb.Controllers
 {
@@ -13,10 +14,19 @@ namespace BlogWeb.Controllers
     {
         [HttpGet("categories")]
         public async Task<IActionResult> GetAsync(
+            [FromServices] IMemoryCache cache,
             [FromServices] BlogDataContext context)
         {
-            return Ok(new ResultViewModel<List<Category>>(await context.Categories.ToListAsync()));
+            var categories = await cache.GetOrCreateAsync("categories", async entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(15);
+                return await GetCategoriesAsync(context);
+            });
+            return Ok(new ResultViewModel<List<Category>>(categories));
         }
+
+        public async Task<List<Category>> GetCategoriesAsync(BlogDataContext context)
+            => await context.Categories.ToListAsync();
 
         [HttpGet("categories/{id:int}")]
         public async Task<IActionResult> GetByIdAsync(

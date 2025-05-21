@@ -56,6 +56,7 @@ namespace BlogWeb.Extensions
             services.AddDbContext<BlogDataContext>();
             services.AddTransient<TokenService>();
             services.AddTransient<EmailService>();
+            services.AddMemoryCache();
             return services;
         }
     }
