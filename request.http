@@ -66,4 +66,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 ###
 
+<<<<<<< Updated upstream
 GET {{baseUrl}}/posts?page=10&pageSize=2
+=======
+GET {{baseUrl}}/posts?page=10&pageSize=2
+
+###
+
+GET {{baseUrl}}/posts/181
+
+###
+
+GET {{baseUrl}}/posts/category/backend
+>>>>>>> Stashed changes
