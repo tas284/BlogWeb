@@ -8,5 +8,6 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseResponseCompression();
 app.MapControllers();
 app.Run();
