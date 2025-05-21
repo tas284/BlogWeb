@@ -1,4 +1,5 @@
 ﻿using BlogWeb.Data;
+using BlogWeb.Models;
 using BlogWeb.ViewModels;
 using BlogWeb.ViewModels.Post;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +71,40 @@ public class PostController : ControllerBase
                 return NotFound(new ResultViewModel<string>("Post not found"));
 
             return Ok(new ResultViewModel<Post>(post));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ResultViewModel<string>($"Internal Server Error: {e.Message}"));
+        }
+    }
+
+    [HttpGet("posts/category/{slug}")]
+    public async Task<IActionResult> GetByCategory(
+        [FromServices] BlogDataContext context,
+        string slug)
+    {
+        try
+        {
+            var posts = await context.Posts
+                .AsNoTracking()
+                .Include(x => x.Category)
+                .Include(x => x.Author)
+                .Where(x => x.Category.Slug == slug)
+                .Select(x => new ListPostsViewModel
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Slug = x.Slug,
+                    LasUpdateDate = x.LastUpdateDate,
+                    Category = x.Category.Name,
+                    Author = $"{x.Author.Name} ({x.Author.Email})"
+                })
+                .OrderByDescending(x => x.LasUpdateDate)
+                .ToListAsync();
+
+            if (posts == null || posts.Count == 0) return NotFound(new ResultViewModel<string>("No posts found for this category"));
+
+            return Ok(new ResultViewModel<List<ListPostsViewModel>>(posts));
         }
         catch (Exception e)
         {
