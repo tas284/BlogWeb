@@ -71,3 +71,7 @@ GET {{baseUrl}}/posts?page=10&pageSize=2
 ###
 
 GET {{baseUrl}}/posts/181
+
+###
+
+GET {{baseUrl}}/posts/category/backend
